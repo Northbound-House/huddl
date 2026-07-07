@@ -1,0 +1,45 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "columns",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "board_id", "order": "ASCENDING" },
+        { "fieldPath": "order", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "team_memberships",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "team_id", "order": "ASCENDING" },
+        { "fieldPath": "email", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "cards",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "board_id", "order": "ASCENDING" },
+        { "fieldPath": "session_id", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "retrospective_sessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "board_id", "order": "ASCENDING" },
+        { "fieldPath": "session_date", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "organization_memberships",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "organization_id", "order": "ASCENDING" },
+        { "fieldPath": "email", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

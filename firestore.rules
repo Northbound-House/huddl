@@ -1,0 +1,471 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function authed() {
+      return request.auth != null;
+    }
+
+    function authEmail() {
+      return authed() && request.auth.token.email != null
+        ? request.auth.token.email.lower()
+        : '';
+    }
+
+    /** Own membership row: case-insensitive match (stored email is normalized in app, but rules stay defensive). */
+    function membershipEmailMatchesRead() {
+      return authEmail() != ''
+        && resource.data.keys().hasAny(['email'])
+        && resource.data.email is string
+        && resource.data.email.lower() == authEmail();
+    }
+
+    function membershipUidMatchesRead() {
+      return request.auth.uid != null
+        && resource.data.keys().hasAny(['uid'])
+        && resource.data.uid is string
+        && resource.data.uid == request.auth.uid;
+    }
+
+    /** Roster: any row for a Circle the caller can read (see listForTeam). */
+    function membershipTeamRosterRead() {
+      return resource.data.keys().hasAny(['team_id'])
+        && resource.data.team_id is string
+        && teamReadable(resource.data.team_id);
+    }
+
+    function orgData(orgId) {
+      return get(/databases/$(database)/documents/organizations/$(orgId)).data;
+    }
+
+    function teamData(teamId) {
+      return get(/databases/$(database)/documents/teams/$(teamId)).data;
+    }
+
+    function isOrgAdmin(orgId) {
+      return orgId != null
+        && orgData(orgId) != null
+        && authEmail() != ''
+        && orgData(orgId).get('admin_emails', []).hasAny([authEmail()]);
+    }
+
+    function personalOrgOwned(orgId) {
+      return orgId != null
+        && orgData(orgId) != null
+        && orgData(orgId).get('is_personal_workspace', false) == true
+        && orgData(orgId).get('personal_owner_uid', '') == request.auth.uid;
+    }
+
+    /** Use `resource.data` in match rules — do not call get() on the same doc (avoids circular rule eval). */
+    function orgVisibleData(data) {
+      return data != null && (
+        (authEmail() != '' && data.get('member_emails', []).hasAny([authEmail()]))
+        || (authEmail() != '' && data.get('admin_emails', []).hasAny([authEmail()]))
+        || (data.get('is_personal_workspace', false) == true && data.get('personal_owner_uid', '') == request.auth.uid)
+      );
+    }
+
+    function isTeamAdminTeam(teamId) {
+      return teamId != null
+        && teamData(teamId) != null
+        && authEmail() != ''
+        && teamData(teamId).get('admin_emails', []).hasAny([authEmail()]);
+    }
+
+    /** Same visibility as teamReadableById but from a team document map (no get of same path). */
+    function teamVisibleData(data) {
+      return data != null && (
+        (authEmail() != '' && data.get('member_emails', []).hasAny([authEmail()]))
+        || (authEmail() != '' && data.get('admin_emails', []).hasAny([authEmail()]))
+        || (request.auth.uid != null && data.get('member_uids', []).hasAny([request.auth.uid]))
+        || data.get('created_by_uid', '') == request.auth.uid
+        || (authEmail() != '' && data.get('created_by_email', '') == authEmail())
+        || isOrgAdmin(data.get('organization_id', null))
+      );
+    }
+
+    /** Cross-doc: get(team) then check fields (teams/{id} read uses teamVisibleData(resource) only). */
+    function teamReadable(teamId) {
+      return teamId != null && teamVisibleData(teamData(teamId));
+    }
+
+    function teamDenormOnlyUpdate(teamId) {
+      return request.resource.data.diff(resource.data).changedKeys().hasOnly(['member_emails', 'admin_emails', 'member_uids'])
+        && teamData(teamId) != null
+        && (
+          isTeamAdminTeam(teamId)
+          || isOrgAdmin(teamData(teamId).get('organization_id', null))
+          || teamData(teamId).get('created_by_uid', '') == request.auth.uid
+        );
+    }
+
+    function boardData(boardId) {
+      return get(/databases/$(database)/documents/boards/$(boardId)).data;
+    }
+
+    /**
+     * Board access via linked Circles: rules cannot loop `team_ids`, so we check prefixes up to 30 entries
+     * (same cap as client `boardTeamsWritePayload` expectations). Extend if product allows more links.
+     */
+    function boardTeamAccess(b) {
+      return b != null && (
+        (b.get('team_ids', []).size() > 0 && teamReadable(b.get('team_ids', [])[0]))
+        || (b.get('team_ids', []).size() > 1 && teamReadable(b.get('team_ids', [])[1]))
+        || (b.get('team_ids', []).size() > 2 && teamReadable(b.get('team_ids', [])[2]))
+        || (b.get('team_ids', []).size() > 3 && teamReadable(b.get('team_ids', [])[3]))
+        || (b.get('team_ids', []).size() > 4 && teamReadable(b.get('team_ids', [])[4]))
+        || (b.get('team_ids', []).size() > 5 && teamReadable(b.get('team_ids', [])[5]))
+        || (b.get('team_ids', []).size() > 6 && teamReadable(b.get('team_ids', [])[6]))
+        || (b.get('team_ids', []).size() > 7 && teamReadable(b.get('team_ids', [])[7]))
+        || (b.get('team_ids', []).size() > 8 && teamReadable(b.get('team_ids', [])[8]))
+        || (b.get('team_ids', []).size() > 9 && teamReadable(b.get('team_ids', [])[9]))
+        || (b.get('team_ids', []).size() > 10 && teamReadable(b.get('team_ids', [])[10]))
+        || (b.get('team_ids', []).size() > 11 && teamReadable(b.get('team_ids', [])[11]))
+        || (b.get('team_ids', []).size() > 12 && teamReadable(b.get('team_ids', [])[12]))
+        || (b.get('team_ids', []).size() > 13 && teamReadable(b.get('team_ids', [])[13]))
+        || (b.get('team_ids', []).size() > 14 && teamReadable(b.get('team_ids', [])[14]))
+        || (b.get('team_ids', []).size() > 15 && teamReadable(b.get('team_ids', [])[15]))
+        || (b.get('team_ids', []).size() > 16 && teamReadable(b.get('team_ids', [])[16]))
+        || (b.get('team_ids', []).size() > 17 && teamReadable(b.get('team_ids', [])[17]))
+        || (b.get('team_ids', []).size() > 18 && teamReadable(b.get('team_ids', [])[18]))
+        || (b.get('team_ids', []).size() > 19 && teamReadable(b.get('team_ids', [])[19]))
+        || (b.get('team_ids', []).size() > 20 && teamReadable(b.get('team_ids', [])[20]))
+        || (b.get('team_ids', []).size() > 21 && teamReadable(b.get('team_ids', [])[21]))
+        || (b.get('team_ids', []).size() > 22 && teamReadable(b.get('team_ids', [])[22]))
+        || (b.get('team_ids', []).size() > 23 && teamReadable(b.get('team_ids', [])[23]))
+        || (b.get('team_ids', []).size() > 24 && teamReadable(b.get('team_ids', [])[24]))
+        || (b.get('team_ids', []).size() > 25 && teamReadable(b.get('team_ids', [])[25]))
+        || (b.get('team_ids', []).size() > 26 && teamReadable(b.get('team_ids', [])[26]))
+        || (b.get('team_ids', []).size() > 27 && teamReadable(b.get('team_ids', [])[27]))
+        || (b.get('team_ids', []).size() > 28 && teamReadable(b.get('team_ids', [])[28]))
+        || (b.get('team_ids', []).size() > 29 && teamReadable(b.get('team_ids', [])[29]))
+        || (
+          b.get('team_ids', []).size() == 0
+          && b.keys().hasAny(['team_id'])
+          && b.team_id is string
+          && teamReadable(b.team_id)
+        )
+      );
+    }
+
+    /**
+     * Denormalized on write (see app `mergeBoardCollaboratorDenorm`): avoids `get(/teams/...)` in rules for list
+     * queries, which can deny the entire expression when the caller cannot read the first linked team.
+     */
+    function boardDenormAccess(b) {
+      return b != null && (
+        (authEmail() != '' && b.get('board_collaborator_emails', []).hasAny([authEmail()]))
+        || (request.auth.uid != null && b.get('board_collaborator_uids', []).hasAny([request.auth.uid]))
+      );
+    }
+
+    function boardRead(b) {
+      return b != null && (
+        (b.keys().hasAny(['owner_uid']) && b.owner_uid == request.auth.uid)
+        || (
+          b.keys().hasAny(['owner_email'])
+          && b.owner_email is string
+          && authEmail() != ''
+          && b.owner_email.lower() == authEmail()
+        )
+        || boardDenormAccess(b)
+        || boardTeamAccess(b)
+      );
+    }
+
+    function boardTeamAdminAny(b) {
+      return b != null && (
+        (b.get('team_ids', []).size() > 0 && isTeamAdminTeam(b.get('team_ids', [])[0]))
+        || (b.get('team_ids', []).size() > 1 && isTeamAdminTeam(b.get('team_ids', [])[1]))
+        || (b.get('team_ids', []).size() > 2 && isTeamAdminTeam(b.get('team_ids', [])[2]))
+        || (b.get('team_ids', []).size() > 3 && isTeamAdminTeam(b.get('team_ids', [])[3]))
+        || (b.get('team_ids', []).size() > 4 && isTeamAdminTeam(b.get('team_ids', [])[4]))
+        || (b.get('team_ids', []).size() > 5 && isTeamAdminTeam(b.get('team_ids', [])[5]))
+        || (b.get('team_ids', []).size() > 6 && isTeamAdminTeam(b.get('team_ids', [])[6]))
+        || (b.get('team_ids', []).size() > 7 && isTeamAdminTeam(b.get('team_ids', [])[7]))
+        || (b.get('team_ids', []).size() > 8 && isTeamAdminTeam(b.get('team_ids', [])[8]))
+        || (b.get('team_ids', []).size() > 9 && isTeamAdminTeam(b.get('team_ids', [])[9]))
+        || (b.get('team_ids', []).size() > 10 && isTeamAdminTeam(b.get('team_ids', [])[10]))
+        || (b.get('team_ids', []).size() > 11 && isTeamAdminTeam(b.get('team_ids', [])[11]))
+        || (b.get('team_ids', []).size() > 12 && isTeamAdminTeam(b.get('team_ids', [])[12]))
+        || (b.get('team_ids', []).size() > 13 && isTeamAdminTeam(b.get('team_ids', [])[13]))
+        || (b.get('team_ids', []).size() > 14 && isTeamAdminTeam(b.get('team_ids', [])[14]))
+        || (b.get('team_ids', []).size() > 15 && isTeamAdminTeam(b.get('team_ids', [])[15]))
+        || (b.get('team_ids', []).size() > 16 && isTeamAdminTeam(b.get('team_ids', [])[16]))
+        || (b.get('team_ids', []).size() > 17 && isTeamAdminTeam(b.get('team_ids', [])[17]))
+        || (b.get('team_ids', []).size() > 18 && isTeamAdminTeam(b.get('team_ids', [])[18]))
+        || (b.get('team_ids', []).size() > 19 && isTeamAdminTeam(b.get('team_ids', [])[19]))
+        || (b.get('team_ids', []).size() > 20 && isTeamAdminTeam(b.get('team_ids', [])[20]))
+        || (b.get('team_ids', []).size() > 21 && isTeamAdminTeam(b.get('team_ids', [])[21]))
+        || (b.get('team_ids', []).size() > 22 && isTeamAdminTeam(b.get('team_ids', [])[22]))
+        || (b.get('team_ids', []).size() > 23 && isTeamAdminTeam(b.get('team_ids', [])[23]))
+        || (b.get('team_ids', []).size() > 24 && isTeamAdminTeam(b.get('team_ids', [])[24]))
+        || (b.get('team_ids', []).size() > 25 && isTeamAdminTeam(b.get('team_ids', [])[25]))
+        || (b.get('team_ids', []).size() > 26 && isTeamAdminTeam(b.get('team_ids', [])[26]))
+        || (b.get('team_ids', []).size() > 27 && isTeamAdminTeam(b.get('team_ids', [])[27]))
+        || (b.get('team_ids', []).size() > 28 && isTeamAdminTeam(b.get('team_ids', [])[28]))
+        || (b.get('team_ids', []).size() > 29 && isTeamAdminTeam(b.get('team_ids', [])[29]))
+        || (
+          b.get('team_ids', []).size() == 0
+          && b.keys().hasAny(['team_id'])
+          && b.team_id is string
+          && isTeamAdminTeam(b.team_id)
+        )
+      );
+    }
+
+    function boardDenormAdmin(b) {
+      return b != null && (
+        authEmail() != '' && b.get('board_collaborator_admin_emails', []).hasAny([authEmail()])
+      );
+    }
+
+    function boardAdmin(b) {
+      return b != null && (
+        (b.keys().hasAny(['owner_uid']) && b.owner_uid == request.auth.uid)
+        || (
+          b.keys().hasAny(['owner_email'])
+          && b.owner_email is string
+          && authEmail() != ''
+          && b.owner_email.lower() == authEmail()
+        )
+        || boardDenormAdmin(b)
+        || boardTeamAdminAny(b)
+      );
+    }
+
+    /** Heartbeat docs under boards/{id}/presence/{uid} — only own uid, same visibility as the board. */
+    function boardPresenceWriteValid() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['updated_at', 'email', 'display_name', 'photo_url'])
+        && (
+          !d.keys().hasAny(['email'])
+          || d.email == null
+          || (d.email is string && (authEmail() == '' || d.email.lower() == authEmail()))
+        )
+        && (
+          !d.keys().hasAny(['display_name'])
+          || d.display_name == null
+          || (d.display_name is string && d.display_name.size() <= 200)
+        )
+        && (
+          !d.keys().hasAny(['photo_url'])
+          || d.photo_url == null
+          || (d.photo_url is string && d.photo_url.size() <= 2000)
+        );
+    }
+
+    function childBoardRead() {
+      return resource.data.keys().hasAny(['board_id'])
+        && resource.data.board_id is string
+        && boardRead(boardData(resource.data.board_id));
+    }
+
+    function childBoardReadCreate() {
+      return request.resource.data.keys().hasAny(['board_id'])
+        && request.resource.data.board_id is string
+        && boardRead(boardData(request.resource.data.board_id));
+    }
+
+    match /app_config/{docId} {
+      allow read: if authed();
+      allow write: if false;
+    }
+
+    match /user_preferences/{userId} {
+      allow read, write: if authed() && request.auth.uid == userId;
+    }
+
+    match /public_profiles/{profileId} {
+      allow read: if authed();
+      allow create, update: if authed()
+        && request.auth.token.email != null
+        && profileId == request.auth.token.email.lower();
+    }
+
+    match /boards/{boardId} {
+      allow read: if authed() && boardRead(resource.data);
+      allow create: if authed() && boardRead(request.resource.data);
+      allow update: if authed() && boardRead(resource.data);
+      allow delete: if authed() && boardAdmin(resource.data);
+
+      match /presence/{uid} {
+        allow read: if authed() && boardRead(boardData(boardId));
+        allow create, update: if authed()
+          && request.auth.uid == uid
+          && boardRead(boardData(boardId))
+          && boardPresenceWriteValid();
+        allow delete: if authed() && request.auth.uid == uid && boardRead(boardData(boardId));
+      }
+    }
+
+    match /board_labels/{labelId} {
+      allow read: if authed() && childBoardRead();
+      allow create: if authed() && childBoardReadCreate();
+      allow update, delete: if authed() && childBoardRead();
+    }
+
+    match /columns/{columnId} {
+      allow read: if authed() && childBoardRead();
+      allow create: if authed() && childBoardReadCreate();
+      allow update, delete: if authed() && childBoardRead();
+    }
+
+    match /cards/{cardId} {
+      allow read: if authed() && childBoardRead();
+      allow create: if authed() && childBoardReadCreate();
+      allow update, delete: if authed() && childBoardRead();
+    }
+
+    match /retrospective_sessions/{sessionId} {
+      allow read: if authed() && childBoardRead();
+      allow create: if authed() && childBoardReadCreate();
+      allow update, delete: if authed() && childBoardRead();
+    }
+
+    match /teams/{teamId} {
+      allow read: if authed() && teamVisibleData(resource.data);
+      allow create: if authed()
+        && authEmail() != ''
+        && request.resource.data.keys().hasAny(['organization_id'])
+        && request.resource.data.organization_id is string
+        && (
+          isOrgAdmin(request.resource.data.organization_id)
+          || request.resource.data.organization_id == 'personal_' + request.auth.uid
+        )
+        && request.resource.data.keys().hasAny(['created_by_uid'])
+        && request.resource.data.created_by_uid == request.auth.uid
+        && request.resource.data.keys().hasAny(['created_by_email'])
+        && request.resource.data.created_by_email == authEmail();
+      allow update: if authed() && (
+        isTeamAdminTeam(teamId)
+        || isOrgAdmin(teamData(teamId).get('organization_id', null))
+        || teamDenormOnlyUpdate(teamId)
+      );
+      allow delete: if authed() && (
+        isTeamAdminTeam(teamId)
+        || isOrgAdmin(teamData(teamId).get('organization_id', null))
+      );
+    }
+
+    match /team_memberships/{membershipId} {
+      allow read: if authed()
+        && (
+          membershipEmailMatchesRead()
+          || membershipUidMatchesRead()
+          || membershipTeamRosterRead()
+        );
+      allow create: if authed()
+        && authEmail() != ''
+        && request.resource.data.keys().hasAny(['team_id', 'email'])
+        && request.resource.data.team_id is string
+        && request.resource.data.email is string
+        && (
+          isTeamAdminTeam(request.resource.data.team_id)
+          || (
+            request.resource.data.email.lower() == authEmail()
+            && request.resource.data.role == 'team_admin'
+            && teamData(request.resource.data.team_id).get('created_by_uid', '') == request.auth.uid
+          )
+        );
+      allow update: if authed()
+        && resource.data.keys().hasAny(['team_id'])
+        && (
+          isTeamAdminTeam(resource.data.team_id)
+          || (
+            authEmail() != ''
+            && resource.data.keys().hasAny(['email'])
+            && resource.data.email is string
+            && resource.data.email.lower() == authEmail()
+          )
+          || (
+            resource.data.keys().hasAny(['uid'])
+            && resource.data.uid is string
+            && resource.data.uid == request.auth.uid
+          )
+        );
+      allow delete: if authed()
+        && resource.data.keys().hasAny(['team_id'])
+        && (
+          isTeamAdminTeam(resource.data.team_id)
+          || (
+            authEmail() != ''
+            && resource.data.keys().hasAny(['email'])
+            && resource.data.email is string
+            && resource.data.email.lower() == authEmail()
+          )
+          || (
+            resource.data.keys().hasAny(['uid'])
+            && resource.data.uid is string
+            && resource.data.uid == request.auth.uid
+          )
+        );
+    }
+
+    match /organizations/{orgId} {
+      allow read: if authed() && orgVisibleData(resource.data);
+      allow create: if authed()
+        && orgId == 'personal_' + request.auth.uid
+        && request.resource.data.get('is_personal_workspace', false) == true
+        && request.resource.data.get('personal_owner_uid', '') == request.auth.uid;
+      allow update: if authed() && (isOrgAdmin(orgId) || personalOrgOwned(orgId));
+      allow delete: if authed() && (isOrgAdmin(orgId) || personalOrgOwned(orgId));
+    }
+
+    match /organization_memberships/{membershipId} {
+      allow read: if authed()
+        && resource.data.keys().hasAny(['organization_id'])
+        && (
+          (authEmail() != '' && resource.data.email == authEmail())
+          || (resource.data.keys().hasAny(['uid']) && resource.data.uid == request.auth.uid)
+          || isOrgAdmin(resource.data.organization_id)
+        );
+      allow create: if authed()
+        && authEmail() != ''
+        && request.resource.data.keys().hasAny(['organization_id', 'email'])
+        && request.resource.data.organization_id is string
+        && request.resource.data.email is string
+        && (
+          (
+            request.resource.data.organization_id == 'personal_' + request.auth.uid
+            && request.resource.data.email == authEmail()
+          )
+          || isOrgAdmin(request.resource.data.organization_id)
+        );
+      allow update: if authed()
+        && resource.data.keys().hasAny(['organization_id'])
+        && (
+          (authEmail() != '' && resource.data.email == authEmail())
+          || (resource.data.keys().hasAny(['uid']) && resource.data.uid == request.auth.uid)
+          || isOrgAdmin(resource.data.organization_id)
+        );
+      allow delete: if authed()
+        && resource.data.keys().hasAny(['organization_id'])
+        && (
+          (authEmail() != '' && resource.data.email == authEmail())
+          || (resource.data.keys().hasAny(['uid']) && resource.data.uid == request.auth.uid)
+          || isOrgAdmin(resource.data.organization_id)
+        );
+    }
+
+    match /product_feedback/{entryId} {
+      function feedbackLogViewer() {
+        return authed()
+          && request.auth.token.email != null
+          && request.auth.token.email.lower() == 'csweetwright@jackhenry.com';
+      }
+      allow create: if authed()
+        && request.auth.token.email != null
+        && request.resource.data.submitter_email == request.auth.token.email.lower()
+        && request.resource.data.kind in ['feature', 'bug']
+        && request.resource.data.body is string
+        && request.resource.data.body.size() > 0
+        && request.resource.data.body.size() <= 8000
+        && request.resource.data.created_at is string
+        && (!('page_path' in request.resource.data)
+          || (request.resource.data.page_path is string && request.resource.data.page_path.size() <= 2000));
+      allow read: if feedbackLogViewer();
+      allow update, delete: if false;
+    }
+  }
+}

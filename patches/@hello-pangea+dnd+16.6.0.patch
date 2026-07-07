@@ -1,0 +1,44 @@
+diff --git a/node_modules/@hello-pangea/dnd/dist/dnd.cjs.js b/node_modules/@hello-pangea/dnd/dist/dnd.cjs.js
+index f4bbae8..df03c2c 100644
+--- a/node_modules/@hello-pangea/dnd/dist/dnd.cjs.js
++++ b/node_modules/@hello-pangea/dnd/dist/dnd.cjs.js
+@@ -4939,7 +4939,7 @@ const supportedEventName = (() => {
+ var supportedPageVisibilityEventName = supportedEventName;
+ 
+ const primaryButton = 0;
+-const sloppyClickThreshold = 5;
++const sloppyClickThreshold = 2;
+ function isSloppyClickThresholdExceeded(original, current) {
+   return Math.abs(current.x - original.x) >= sloppyClickThreshold || Math.abs(current.y - original.y) >= sloppyClickThreshold;
+ }
+@@ -5305,7 +5305,7 @@ function useKeyboardSensor(api) {
+ const idle = {
+   type: 'IDLE'
+ };
+-const timeForLongPress = 120;
++const timeForLongPress = 32;
+ const forcePressThreshold = 0.15;
+ function getWindowBindings({
+   cancel,
+diff --git a/node_modules/@hello-pangea/dnd/dist/dnd.esm.js b/node_modules/@hello-pangea/dnd/dist/dnd.esm.js
+index 4b75da5..7717504 100644
+--- a/node_modules/@hello-pangea/dnd/dist/dnd.esm.js
++++ b/node_modules/@hello-pangea/dnd/dist/dnd.esm.js
+@@ -4937,7 +4937,7 @@ const supportedEventName = (() => {
+ var supportedPageVisibilityEventName = supportedEventName;
+ 
+ const primaryButton = 0;
+-const sloppyClickThreshold = 5;
++const sloppyClickThreshold = 2;
+ function isSloppyClickThresholdExceeded(original, current) {
+   return Math.abs(current.x - original.x) >= sloppyClickThreshold || Math.abs(current.y - original.y) >= sloppyClickThreshold;
+ }
+@@ -5303,7 +5303,7 @@ function useKeyboardSensor(api) {
+ const idle = {
+   type: 'IDLE'
+ };
+-const timeForLongPress = 120;
++const timeForLongPress = 32;
+ const forcePressThreshold = 0.15;
+ function getWindowBindings({
+   cancel,
