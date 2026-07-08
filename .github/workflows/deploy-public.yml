@@ -27,18 +27,10 @@ jobs:
 
       - run: npm ci
 
+      # Firebase config comes from .env.public (loaded by `vite build --mode public`).
+      # Firebase web config is client-side/public, so it lives in version control, not secrets.
       - name: Build public frontend
         run: npm run build:public
-        env:
-          VITE_FIREBASE_API_KEY: ${{ secrets.PUBLIC_FIREBASE_API_KEY }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.PUBLIC_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_PROJECT_ID: huddl-a3aec
-          VITE_FIREBASE_STORAGE_BUCKET: huddl-a3aec.firebasestorage.app
-          VITE_FIREBASE_MESSAGING_SENDER_ID: "76655198209"
-          VITE_FIREBASE_APP_ID: ${{ secrets.PUBLIC_FIREBASE_APP_ID }}
-          VITE_BLOCKED_AUTH_EMAIL_DOMAIN: jackhenry.com
-          VITE_ALLOWED_AUTH_EMAIL_DOMAIN: ""
-          VITE_USE_FIRESTORE: "true"
 
       - name: Deploy hosting to public project
         run: npx firebase deploy --project huddl --only hosting:public --token "${{ secrets.FIREBASE_TOKEN }}"
