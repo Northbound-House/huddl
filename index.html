@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huddl — Better work starts with a Huddl</title>
+  <meta name="description" content="Huddl is the team workspace that combines Kanban boards with retrospectives. Organize teams with Circles, collaborate in real time, and never lose a retro insight. Free forever in local mode.">
+  <meta name="keywords" content="team collaboration tool, online retrospective board, kanban board for teams, retrospective software, sprint retrospective tool, trello alternative">
+  <meta property="og:title" content="Huddl — Better work starts with a Huddl">
+  <meta property="og:description" content="One workspace for all your team ceremonies. Kanban boards, retrospectives, and real-time collaboration — beautifully simple.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://huddl.cloud">
+  <link rel="icon" type="image/svg+xml" href="images/huddl-icon.svg">
+  <link rel="apple-touch-icon" href="images/huddl-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="header" id="top">
+    <nav class="nav container">
+      <a href="#top" class="logo" aria-label="Huddl home">
+        <img src="images/huddl-icon.svg" alt="" class="logo-mark">
+        <span class="logo-word">huddl</span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#use-cases">Use cases</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li class="nav-mobile-cta"><a href="https://go.huddl.cloud" class="btn btn-primary btn-sm">Start a Huddl — Free</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="https://go.huddl.cloud" class="nav-signin">Sign in</a>
+        <a href="https://go.huddl.cloud" class="btn btn-primary btn-sm">Start a Huddl — Free</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="hero-decoration" aria-hidden="true">
+      <div class="orb orb--teal"></div>
+      <div class="orb orb--purple"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content reveal">
+        <p class="hero-eyebrow">✦ Boards + retrospectives, finally together</p>
+        <h1 class="hero-headline">Better work starts<br>with a <span class="accent-gradient">Huddl</span></h1>
+        <p class="hero-sub">One workspace for all your team ceremonies. Organize teams with Circles, run Kanban boards and retrospectives side by side, and watch changes appear in real time — no refresh required.</p>
+        <div class="hero-ctas">
+          <a href="https://go.huddl.cloud" class="btn btn-primary btn-lg">Start a Huddl for Free</a>
+          <a href="#how" class="btn btn-ghost btn-lg">See how it works →</a>
+        </div>
+        <ul class="hero-trust" aria-label="Highlights">
+          <li>✓ No credit card required</li>
+          <li>✓ Free forever in local mode</li>
+          <li>✓ Set up in under 60 seconds</li>
+        </ul>
+      </div>
+
+      <!-- Product mockup -->
+      <div class="hero-mockup reveal" aria-hidden="true">
+        <div class="mockup-window">
+          <div class="mockup-titlebar">
+            <span class="dot dot--r"></span><span class="dot dot--y"></span><span class="dot dot--g"></span>
+            <span class="mockup-url">go.huddl.cloud</span>
+          </div>
+          <div class="mockup-toolbar">
+            <div class="mockup-board-name">
+              <span class="mockup-circle-chip">Product Team</span>
+              <strong>Sprint 24 Board</strong>
+            </div>
+            <div class="mockup-presence">
+              <span class="avatar avatar--1">JT</span>
+              <span class="avatar avatar--2">MK</span>
+              <span class="avatar avatar--3">AR</span>
+              <span class="avatar avatar--more">+3</span>
+              <span class="presence-live"><span class="pulse"></span>6 online</span>
+            </div>
+          </div>
+          <div class="mockup-board">
+            <div class="mockup-col">
+              <div class="mockup-col-head">To Do <span class="count">4</span></div>
+              <div class="mockup-card"><span class="tag tag--teal">Design</span>Onboarding flow v2</div>
+              <div class="mockup-card"><span class="tag tag--purple">API</span>Rate limit headers</div>
+              <div class="mockup-card">Update pricing page copy</div>
+            </div>
+            <div class="mockup-col">
+              <div class="mockup-col-head">In Progress <span class="count">2</span></div>
+              <div class="mockup-card mockup-card--dragging"><span class="tag tag--purple">Feature</span>Trello import wizard<span class="card-avatar">MK</span></div>
+              <div class="mockup-card"><span class="tag tag--teal">Bug</span>Presence flicker on join</div>
+            </div>
+            <div class="mockup-col">
+              <div class="mockup-col-head">Done <span class="count">7</span></div>
+              <div class="mockup-card mockup-card--done">Circle roles &amp; permissions</div>
+              <div class="mockup-card mockup-card--done">Session auto-scheduling</div>
+              <div class="mockup-card mockup-card--done">Google sign-in</div>
+            </div>
+          </div>
+        </div>
+        <div class="mockup-toast">
+          <span class="toast-icon">🗂</span>
+          <div><strong>Retro session saved</strong><br><span>Sprint 23 · 12 insights preserved</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== VALUE STRIP ========== -->
+  <section class="value-strip">
+    <div class="container value-strip-grid">
+      <div class="value-item reveal"><strong>&lt; 60 sec</strong><span>from sign-in to first board</span></div>
+      <div class="value-item reveal"><strong>2-in-1</strong><span>Kanban boards + retrospectives</span></div>
+      <div class="value-item reveal"><strong>Real-time</strong><span>live presence &amp; instant updates</span></div>
+      <div class="value-item reveal"><strong>1-click</strong><span>import from Trello</span></div>
+    </div>
+  </section>
+
+  <!-- ========== FEATURES ========== -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Features</p>
+        <h2>Everything your team's rituals need. Nothing they don't.</h2>
+        <p>For teams tired of juggling multiple tools, Huddl brings boards, retrospectives, and collaboration into a single, beautifully simple platform.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card reveal">
+          <div class="feature-icon feature-icon--teal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><circle cx="5.5" cy="15" r="3"/><circle cx="18.5" cy="15" r="3"/><path d="M12 11v2m-4 .5 2-1.5m6 1.5-2-1.5"/></svg>
+          </div>
+          <h3>Circles</h3>
+          <p>Organize teams, not chaos. Create Circles to group your people, then share boards with exactly who needs them. Circle Leads control access; members collaborate freely.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon feature-icon--purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="10" rx="1.5"/><rect x="17" y="4" width="4" height="13" rx="1.5"/></svg>
+          </div>
+          <h3>Ongoing Huddls</h3>
+          <p>Persistent Kanban-style boards for continuous work — backlogs, roadmaps, and ongoing projects. Start from Kanban and Brainstorm templates, or build from scratch.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon feature-icon--teal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <h3>Session Huddls</h3>
+          <p>Time-based retrospective boards with built-in history. Schedule sessions weekly, bi-weekly, or monthly — every session is preserved so insights never get lost.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon feature-icon--purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11L9.5 22 19 10h-6.5L13 2z"/></svg>
+          </div>
+          <h3>Real-time collaboration</h3>
+          <p>See who's viewing every board, watch updates land instantly, and collaborate live without conflicts. Presence indicators keep the whole team in sync.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon feature-icon--teal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+          </div>
+          <h3>Ready-made templates</h3>
+          <p>Kanban, Retro, Brainstorm, or Blank — pick a layout and your board is ready before the meeting starts. Rich text cards, drag-and-drop, comments, and archiving built in.</p>
+        </article>
+        <article class="feature-card reveal">
+          <div class="feature-icon feature-icon--purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .4-8.99A7 7 0 0 0 4.3 12.1 3.5 3.5 0 0 0 6.5 19h11z"/></svg>
+          </div>
+          <h3>Cloud or local — your call</h3>
+          <p>Sync across devices with secure cloud mode, or keep every byte in your browser with local mode. Either way, import your Trello boards in one click.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DEEP DIVE: CIRCLES ========== -->
+  <section class="deep-dive">
+    <div class="container split">
+      <div class="split-text reveal">
+        <p class="section-eyebrow">Simple team organization</p>
+        <h2>Organize teams, not chaos.</h2>
+        <p>Create Circles to organize your teams, then share Huddl Boards with the people who need them. Circle Leads control access, while members collaborate freely — no more wrestling with permissions.</p>
+        <ul class="check-list">
+          <li>Group people into Circles per team, squad, or client</li>
+          <li>Role-based access: Circle Leads and Members</li>
+          <li>Personal boards stay private; Circle boards stay shared</li>
+          <li>Secure, simple sign-in with Google</li>
+        </ul>
+      </div>
+      <div class="split-visual reveal" aria-hidden="true">
+        <div class="circle-visual">
+          <div class="circle-card">
+            <div class="circle-card-head">
+              <span class="circle-dot" style="background:#33C4A3;"></span>
+              <strong>Product Team</strong>
+              <span class="circle-count">8 members · 5 boards</span>
+            </div>
+            <div class="circle-members">
+              <span class="avatar avatar--1">JT</span><span class="avatar avatar--2">MK</span><span class="avatar avatar--3">AR</span><span class="avatar avatar--4">LS</span><span class="avatar avatar--more">+4</span>
+              <span class="role-chip">Lead: JT</span>
+            </div>
+          </div>
+          <div class="circle-card">
+            <div class="circle-card-head">
+              <span class="circle-dot" style="background:#7C5EF5;"></span>
+              <strong>Platform Squad</strong>
+              <span class="circle-count">5 members · 3 boards</span>
+            </div>
+            <div class="circle-members">
+              <span class="avatar avatar--3">AR</span><span class="avatar avatar--5">DP</span><span class="avatar avatar--2">MK</span>
+              <span class="role-chip">Lead: AR</span>
+            </div>
+          </div>
+          <div class="circle-card circle-card--ghost">
+            <span>＋ New Circle</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DEEP DIVE: SESSIONS ========== -->
+  <section class="deep-dive deep-dive--alt">
+    <div class="container split split--reverse">
+      <div class="split-text reveal">
+        <p class="section-eyebrow">History that matters</p>
+        <h2>Never lose a retrospective insight again.</h2>
+        <p>Session Huddls automatically preserve your retrospective history. Whether it's a weekly retro or a monthly review, every session is saved — so you can review past insights, spot patterns, and prove your team is actually improving.</p>
+        <ul class="check-list">
+          <li>Built-in retro template: What went well / Improve / Kudos / Actions</li>
+          <li>Manual or automatic scheduling — weekly, bi-weekly, monthly</li>
+          <li>Browse every past session, anytime</li>
+          <li>Action items carry your retros into real change</li>
+        </ul>
+      </div>
+      <div class="split-visual reveal" aria-hidden="true">
+        <div class="session-visual">
+          <div class="session-row session-row--current">
+            <span class="session-date">This week</span>
+            <div class="session-pill session-pill--live"><span class="pulse"></span>Sprint 24 Retro · in progress</div>
+          </div>
+          <div class="session-row">
+            <span class="session-date">Jun 23</span>
+            <div class="session-pill">Sprint 23 Retro · 12 insights · 4 actions</div>
+          </div>
+          <div class="session-row">
+            <span class="session-date">Jun 9</span>
+            <div class="session-pill">Sprint 22 Retro · 9 insights · 3 actions</div>
+          </div>
+          <div class="session-row">
+            <span class="session-date">May 26</span>
+            <div class="session-pill">Sprint 21 Retro · 15 insights · 5 actions</div>
+          </div>
+          <div class="session-fade"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TEMPLATES ========== -->
+  <section class="templates">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Templates</p>
+        <h2>Start a board before the meeting starts.</h2>
+        <p>Pre-built layouts for every team ceremony — or go blank and make it yours.</p>
+      </div>
+      <div class="template-grid">
+        <div class="template-card reveal">
+          <div class="template-preview">
+            <div class="t-col"><span class="t-head"></span><span class="t-item"></span><span class="t-item"></span><span class="t-item"></span></div>
+            <div class="t-col"><span class="t-head"></span><span class="t-item"></span><span class="t-item"></span></div>
+            <div class="t-col"><span class="t-head"></span><span class="t-item"></span></div>
+          </div>
+          <h3>Kanban</h3>
+          <p>To Do → In Progress → Done</p>
+        </div>
+        <div class="template-card reveal">
+          <div class="template-preview template-preview--retro">
+            <div class="t-col"><span class="t-head t-head--teal"></span><span class="t-item"></span><span class="t-item"></span></div>
+            <div class="t-col"><span class="t-head t-head--purple"></span><span class="t-item"></span></div>
+            <div class="t-col"><span class="t-head t-head--teal"></span><span class="t-item"></span><span class="t-item"></span></div>
+            <div class="t-col"><span class="t-head t-head--purple"></span><span class="t-item"></span></div>
+          </div>
+          <h3>Retro</h3>
+          <p>Went well / Improve / Kudos / Actions</p>
+        </div>
+        <div class="template-card reveal">
+          <div class="template-preview">
+            <div class="t-col"><span class="t-head t-head--purple"></span><span class="t-item"></span><span class="t-item"></span><span class="t-item"></span></div>
+            <div class="t-col"><span class="t-head"></span><span class="t-item"></span><span class="t-item"></span></div>
+            <div class="t-col"><span class="t-head t-head--teal"></span><span class="t-item"></span></div>
+          </div>
+          <h3>Brainstorm</h3>
+          <p>Ideas → Themes → Next Steps</p>
+        </div>
+        <div class="template-card reveal">
+          <div class="template-preview template-preview--blank">
+            <span class="t-plus">＋</span>
+          </div>
+          <h3>Blank</h3>
+          <p>Complete customization</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOW IT WORKS ========== -->
+  <section class="how" id="how">
+    <div class="container">
+      <div class="section-header section-header--light reveal">
+        <p class="section-eyebrow">How it works</p>
+        <h2>Your first Huddl in under 60 seconds.</h2>
+      </div>
+      <div class="how-grid">
+        <div class="how-step reveal">
+          <span class="how-number">01</span>
+          <h3>Sign in with Google</h3>
+          <p>No forms, no passwords, no setup friction. One click and you're in — or skip sign-in entirely with local mode.</p>
+        </div>
+        <div class="how-step reveal">
+          <span class="how-number">02</span>
+          <h3>Create a Circle</h3>
+          <p>Invite your team into a Circle. Everyone gets the boards they need, and nothing they don't.</p>
+        </div>
+        <div class="how-step reveal">
+          <span class="how-number">03</span>
+          <h3>Start a Huddl</h3>
+          <p>Pick a template — Kanban, Retro, Brainstorm, or Blank — and start collaborating live with your team.</p>
+        </div>
+      </div>
+      <div class="how-cta reveal">
+        <a href="https://go.huddl.cloud" class="btn btn-light btn-lg">Try Huddl Free →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== USE CASES ========== -->
+  <section class="use-cases" id="use-cases">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Use cases</p>
+        <h2>Built for team rituals of every rhythm.</h2>
+        <p>Whether it's a weekly retro or an ongoing product backlog, Huddl adapts to how your team works.</p>
+      </div>
+      <div class="use-case-grid">
+        <article class="use-case-card reveal">
+          <span class="use-case-emoji">🔄</span>
+          <h3>Sprint retrospectives</h3>
+          <p>Run structured retros with the built-in template, capture kudos and action items, and keep every session in history so improvements actually stick.</p>
+        </article>
+        <article class="use-case-card reveal">
+          <span class="use-case-emoji">🗺</span>
+          <h3>Product roadmaps</h3>
+          <p>Keep an Ongoing Huddl as your single source of truth. Drag priorities as they shift and let the whole Circle watch the plan evolve in real time.</p>
+        </article>
+        <article class="use-case-card reveal">
+          <span class="use-case-emoji">💡</span>
+          <h3>Team brainstorming</h3>
+          <p>Capture ideas fast with the Brainstorm template, cluster them into themes together, then convert the best ones into next steps — all in one session.</p>
+        </article>
+        <article class="use-case-card reveal">
+          <span class="use-case-emoji">📋</span>
+          <h3>Project management</h3>
+          <p>Track work from backlog to done with Kanban boards, rich card descriptions, comments, and archives that preserve the full story of every project.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRICING ========== -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Pricing</p>
+        <h2>Start free. Upgrade when your team is ready.</h2>
+        <p>No credit card required. Local mode is free forever.</p>
+      </div>
+      <div class="pricing-grid">
+        <article class="price-card reveal">
+          <h3>Local</h3>
+          <p class="price"><span class="price-amount">$0</span><span class="price-period">forever</span></p>
+          <p class="price-desc">Everything runs in your browser. Perfect for individuals and privacy-first teams.</p>
+          <ul class="price-features">
+            <li>Unlimited boards &amp; templates</li>
+            <li>All data stays on your device</li>
+            <li>Retro sessions with history</li>
+            <li>Trello import</li>
+            <li>No account required</li>
+          </ul>
+          <a href="https://go.huddl.cloud" class="btn btn-outline btn-block">Start for Free</a>
+        </article>
+        <article class="price-card price-card--featured reveal">
+          <span class="price-badge">Most popular</span>
+          <h3>Cloud</h3>
+          <p class="price"><span class="price-amount">$6</span><span class="price-period">per user / month</span></p>
+          <p class="price-desc">Real-time collaboration for the whole team, synced securely across every device.</p>
+          <ul class="price-features">
+            <li>Everything in Local, plus:</li>
+            <li>Circles with role-based access</li>
+            <li>Real-time presence &amp; live updates</li>
+            <li>Sync across all devices</li>
+            <li>Automatic session scheduling</li>
+            <li>Google sign-in &amp; secure cloud storage</li>
+          </ul>
+          <a href="https://go.huddl.cloud" class="btn btn-primary btn-block">Start a Huddl for Free</a>
+        </article>
+        <article class="price-card reveal">
+          <h3>Enterprise</h3>
+          <p class="price"><span class="price-amount">Custom</span></p>
+          <p class="price-desc">For organizations that need control — domain restrictions, custom deployment, and support.</p>
+          <ul class="price-features">
+            <li>Everything in Cloud, plus:</li>
+            <li>Custom domain restrictions</li>
+            <li>Local-only deployment option</li>
+            <li>Priority support</li>
+            <li>Onboarding for your teams</li>
+          </ul>
+          <a href="mailto:hello@huddl.cloud" class="btn btn-outline btn-block">Contact Us</a>
+        </article>
+      </div>
+      <p class="pricing-note reveal">Your data stays secure on Google Firebase infrastructure — or entirely in your browser with local mode.</p>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section class="faq" id="faq">
+    <div class="container container--narrow">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">FAQ</p>
+        <h2>Questions? Huddl up.</h2>
+      </div>
+      <div class="faq-list reveal">
+        <details class="faq-item">
+          <summary>What makes Huddl different from Trello or Miro?</summary>
+          <p>Huddl combines Trello's board simplicity with purpose-built retrospectives — no tool sprawl. Circles give you real team-level organization that Trello lacks, and Huddl stays focused on team ceremonies instead of Miro's infinite (and often overwhelming) canvas.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is Huddl really free?</summary>
+          <p>Yes. Local mode is free forever — all your data lives in your browser, with unlimited boards and templates. When your team wants real-time collaboration and cross-device sync, upgrade to Cloud.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What's the difference between Ongoing and Session Huddls?</summary>
+          <p>Ongoing Huddls are persistent boards for continuous work like backlogs and roadmaps. Session Huddls are time-based boards for recurring rituals like retrospectives — each session is saved to history, so past insights are always a click away.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I import my existing Trello boards?</summary>
+          <p>Yes — Huddl imports from Trello in one click, so your team can migrate without losing work or momentum.</p>
+        </details>
+        <details class="faq-item">
+          <summary>How does Huddl handle security and privacy?</summary>
+          <p>Cloud mode uses Google sign-in and stores data on Google Firebase infrastructure. Prefer maximum privacy? Local mode keeps every byte in your browser — nothing ever leaves your device.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does Huddl work on mobile?</summary>
+          <p>Huddl runs in any modern browser and is fully responsive, so it works on tablets and phones as well as desktops.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FINAL CTA ========== -->
+  <section class="final-cta">
+    <div class="container reveal">
+      <h2>Ready for better work?</h2>
+      <p>Join teams replacing tool sprawl with one beautifully simple workspace.</p>
+      <div class="hero-ctas">
+        <a href="https://go.huddl.cloud" class="btn btn-light btn-lg">Start a Huddl for Free</a>
+      </div>
+      <p class="final-cta-note">No credit card · Free forever in local mode · Set up in under 60 seconds</p>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#top" class="logo" aria-label="Huddl home">
+            <img src="images/huddl-icon.svg" alt="" class="logo-mark">
+            <span class="logo-word">huddl</span>
+          </a>
+          <p class="footer-tagline">Better work starts with a Huddl.</p>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="#features">Features</a>
+            <a href="#use-cases">Use cases</a>
+            <a href="#pricing">Pricing</a>
+            <a href="https://go.huddl.cloud">Sign in</a>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <a href="https://northboundhouse.com" target="_blank" rel="noopener noreferrer">Northbound House</a>
+            <a href="mailto:hello@huddl.cloud">Contact</a>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Huddl · A <a href="https://northboundhouse.com" target="_blank" rel="noopener noreferrer">Northbound House</a> venture. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
